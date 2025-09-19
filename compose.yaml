@@ -1,0 +1,16 @@
+services:
+  postgres:
+    container_name: haala-db
+    image: postgres:17-alpine
+    environment:
+      - POSTGRES_DB=${DB_NAME}
+      - POSTGRES_PASSWORD=${DB_PASSWORD}
+      - POSTGRES_USER=${DB_USER}
+    volumes:
+      - haalaData:/var/lib/postgresql/data
+    ports:
+      - ${DB_PORT}:5432
+    restart: always
+
+volumes:
+  haalaData:
