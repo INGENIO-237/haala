@@ -31,4 +31,8 @@ public class User {
     private String bio;
 
     private String avatar;
+
+    public String getFullname() {
+        return firstname + " " + lastname;
+    }
 }

@@ -14,3 +14,6 @@ spring:
 logging:
   level:
     root: WARN
+server:
+  servlet:
+    context-path: /api
