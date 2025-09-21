@@ -1,7 +1,8 @@
 spring:
   jpa:
+    show-sql: true
     hibernate:
-      ddl-auto: create-drop
+      ddl-auto: create-only
 logging:
   level:
     root: DEBUG
