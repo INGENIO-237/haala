@@ -11,6 +11,5 @@ services:
     ports:
       - ${DB_PORT}:5432
     restart: always
-
 volumes:
   haalaData:
