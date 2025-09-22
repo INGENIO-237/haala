@@ -1,12 +1,20 @@
 package app.vercel.ingenio_theta.haala.users;
 
-import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
-import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
+import java.util.List;
+import java.util.Map;
+
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-import java.util.List;
+import app.vercel.ingenio_theta.haala.shared.ApiResponse;
+import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
+import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
+import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
@@ -18,16 +26,17 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<UserResponse> create(@RequestBody CreateUserDto payload) {
+    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody CreateUserDto payload) {
         UserResponse response = service.create(payload);
 
-        return new ResponseEntity<>(response, HttpStatus.CREATED);
+        return new ApiResponse<>("User account created successfully", response, HttpStatus.CREATED).toResponseEntity();
     }
 
     @GetMapping
-    public ResponseEntity<List<UserResponse>> find() {
+    public ResponseEntity<Map<String, Object>> find() {
         List<UserResponse> responses = service.find();
 
-        return new ResponseEntity<>(responses, HttpStatus.OK);
+        return new ApiResponse<>("List of users retrieves successfully", responses,
+                HttpStatus.OK).toResponseEntity();
     }
 }
