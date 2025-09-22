@@ -9,9 +9,11 @@ spring:
     password: ${DB_PASSWORD}
     driver-class-name: org.postgresql.Driver
   jpa:
-    database: postgresql
     hibernate:
       ddl-auto: none
 logging:
   level:
     root: WARN
+server:
+  servlet:
+    context-path: /api
