@@ -1,31 +1,25 @@
 package app.vercel.ingenio_theta.haala.shared;
 
-import java.util.HashMap;
-import java.util.Map;
-
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 
+import lombok.Builder;
 import lombok.Data;
 
 @Data
-public class ApiResponse<T> {
+@Builder
+public class ApiResponse {
     private String message;
-    private T data;
+    private Object data;
     private HttpStatus status;
 
-    public ApiResponse(String message, T data, HttpStatus status) {
-        this.message = message;
-        this.data = data;
-        this.status = status;
-    }
-
-    public ResponseEntity<Map<String, Object>> toResponseEntity() {
-        Map<String, Object> response = new HashMap<>();
-
-        response.put("status", status);
-        response.put("message", message);
-        response.put("data", data);
+    public static <T> ResponseEntity<ApiResponse> build(
+            String message, T data,
+            HttpStatus status) {
+        ApiResponse response = ApiResponse.builder()
+                .message(message).data(data)
+                .status(status)
+                .build();
 
         return new ResponseEntity<>(response, status);
     }
