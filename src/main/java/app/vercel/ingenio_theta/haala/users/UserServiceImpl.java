@@ -5,6 +5,7 @@ import java.util.Optional;
 
 import org.springframework.stereotype.Service;
 
+import app.vercel.ingenio_theta.haala.shared.exceptions.common.ConflictException;
 import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
 import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
 
@@ -19,6 +20,10 @@ public class UserServiceImpl implements UserService {
     @Override
     public UserResponse create(CreateUserDto payload) {
         Optional<User> existingUser = findByEmail(payload.getEmail());
+
+        if (existingUser != null) {
+            throw new ConflictException("Email already in use");
+        }
 
         // TODO: Hash password
         User user = UserMapper.toUser(payload);

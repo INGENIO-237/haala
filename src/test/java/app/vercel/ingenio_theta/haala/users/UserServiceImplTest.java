@@ -6,14 +6,15 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.when;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.MockitoAnnotations;
-import org.springframework.web.bind.MethodArgumentNotValidException;
 
+import app.vercel.ingenio_theta.haala.shared.exceptions.common.ConflictException;
 import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
 import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
 
@@ -50,6 +51,7 @@ public class UserServiceImplTest {
             .build();
 
     @BeforeEach
+    @SuppressWarnings("unused")
     void setUp() {
         MockitoAnnotations.openMocks(this);
 
@@ -67,6 +69,9 @@ public class UserServiceImplTest {
 
     @Test
     void testCreateUser_OK() {
+        when(repository.findByEmail(createUserDto.getEmail()))
+                .thenReturn(null);
+
         UserResponse result = service.create(createUserDto);
 
         assertNotNull(createdUser.getId());
@@ -75,6 +80,13 @@ public class UserServiceImplTest {
 
     @Test
     void testCreateUser_ExistingEmail() {
-        assertThrows(MethodArgumentNotValidException.class, () -> service.create(createUserDtoExistingEmail));
+        when(repository.findByEmail(createUserDtoExistingEmail.getEmail()))
+                .thenReturn(Optional.of(users.stream()
+                        .filter(user -> user.getEmail().equals(createUserDtoExistingEmail.getEmail())).toList()
+                        .getFirst()));
+
+        ConflictException ex = assertThrows(ConflictException.class, () -> service.create(createUserDtoExistingEmail));
+
+        assertEquals("Email already in use", ex.getMessage());
     }
 }
