@@ -21,7 +21,7 @@ public class UserServiceImpl implements UserService {
     public UserResponse create(CreateUserDto payload) {
         Optional<User> existingUser = findByEmail(payload.getEmail());
 
-        if (!existingUser.isEmpty()) {
+        if (existingUser.isPresent()) {
             throw new ConflictException("Email already in use");
         }
 
