@@ -1,7 +1,6 @@
 package app.vercel.ingenio_theta.haala.users;
 
 import java.util.List;
-import java.util.Map;
 
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -26,17 +25,16 @@ public class UserController {
     }
 
     @PostMapping
-    public ResponseEntity<Map<String, Object>> create(@Valid @RequestBody CreateUserDto payload) {
+    public ResponseEntity<ApiResponse> create(@Valid @RequestBody CreateUserDto payload) {
         UserResponse response = service.create(payload);
 
-        return new ApiResponse<>("User account created successfully", response, HttpStatus.CREATED).toResponseEntity();
+        return ApiResponse.build("User account created successfully", response, HttpStatus.CREATED);
     }
 
     @GetMapping
-    public ResponseEntity<Map<String, Object>> find() {
+    public ResponseEntity<ApiResponse> find() {
         List<UserResponse> responses = service.find();
 
-        return new ApiResponse<>("List of users retrieves successfully", responses,
-                HttpStatus.OK).toResponseEntity();
+        return ApiResponse.build("List of users retrieves successfully", responses, HttpStatus.OK);
     }
 }

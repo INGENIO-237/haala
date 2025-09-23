@@ -15,7 +15,7 @@ public class UserMapper {
                 .build();
     }
 
-    public static UserResponse toUserResponse (User user) {
+    public static UserResponse toUserResponse(User user) {
         return UserResponse.builder()
                 .id(user.getId())
                 .bio(user.getBio())
@@ -23,10 +23,12 @@ public class UserMapper {
                 .email(user.getEmail())
                 .firstname(user.getFirstname())
                 .lastname(user.getLastname())
+                .createdAt(user.getCreatedAt())
+                .updatedAt(user.getUpdatedAt())
                 .build();
     }
 
-    public static List<UserResponse> toUserResponseList (List<User> users) {
+    public static List<UserResponse> toUserResponseList(List<User> users) {
         return users.stream()
                 .map(UserMapper::toUserResponse)
                 .toList();
