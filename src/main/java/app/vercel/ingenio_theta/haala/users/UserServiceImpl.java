@@ -1,13 +1,15 @@
 package app.vercel.ingenio_theta.haala.users;
 
-import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
-import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
+import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
 
 @Service
-public class UserServiceImpl implements UserService{
+public class UserServiceImpl implements UserService {
     private final UserRepository repository;
 
     public UserServiceImpl(UserRepository repository) {
@@ -16,6 +18,8 @@ public class UserServiceImpl implements UserService{
 
     @Override
     public UserResponse create(CreateUserDto payload) {
+        Optional<User> existingUser = findByEmail(payload.getEmail());
+
         // TODO: Hash password
         User user = UserMapper.toUser(payload);
 
@@ -29,5 +33,10 @@ public class UserServiceImpl implements UserService{
         List<User> users = repository.findAll();
 
         return UserMapper.toUserResponseList(users);
+    }
+
+    @Override
+    public Optional<User> findByEmail(String email) {
+        return repository.findByEmail(email);
     }
 }
