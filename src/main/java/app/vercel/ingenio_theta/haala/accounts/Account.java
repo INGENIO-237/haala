@@ -37,13 +37,11 @@ public class Account {
     @Column(nullable = false)
     private String lastname;
 
-
     @CreatedDate
     private LocalDateTime createdAt;
 
     @LastModifiedDate
     private LocalDateTime updatedAt;
-
 
     public String getFullname() {
         return firstname + " " + lastname;
