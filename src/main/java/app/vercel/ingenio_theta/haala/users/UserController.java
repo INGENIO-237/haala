@@ -13,14 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import app.vercel.ingenio_theta.haala.shared.ApiResponse;
 import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
 import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
+import app.vercel.ingenio_theta.haala.users.interfaces.IUserService;
 import jakarta.validation.Valid;
 
 @RestController
 @RequestMapping("/users")
 public class UserController {
-    private final UserService service;
+    private final IUserService service;
 
-    public UserController(UserService service) {
+    public UserController(IUserService service) {
         this.service = service;
     }
 

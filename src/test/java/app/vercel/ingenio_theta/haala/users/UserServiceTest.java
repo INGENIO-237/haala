@@ -18,12 +18,12 @@ import app.vercel.ingenio_theta.haala.shared.exceptions.common.ConflictException
 import app.vercel.ingenio_theta.haala.users.dtos.CreateUserDto;
 import app.vercel.ingenio_theta.haala.users.dtos.UserResponse;
 
-public class UserServiceImplTest {
+public class UserServiceTest {
         @Mock
         private UserRepository repository;
 
         @InjectMocks
-        private UserServiceImpl service;
+        private UserService service;
 
         private final List<User> users = List.of(
                         User.builder().id("some-uuid")
